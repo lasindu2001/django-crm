@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, AddRecordForm
 from .models import Record
 
 def home(request):
@@ -15,7 +15,7 @@ def home(request):
             messages.success(request, "You have been logged in!!!")
             return redirect('home')
         else:
-            messages.success(request, "There was an error logging in, please try again...")
+            messages.success(request, "There was an error logging in, please try again!!!")
             return redirect('home')
     else:
         return render(request, 'home.html', {'records': records})
@@ -57,4 +57,17 @@ def delete_record(request, pk):
         return redirect('home')
     else:
         messages.success(request, "You Must Be Logged In To Do That!!!")
+        return redirect('home')
+    
+def add_record(request):
+    form = AddRecordForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Record Added!!!")
+                return redirect('home')
+        return render(request, 'add_record.html', {'form': form})
+    else:
+        messages.success(request, "You Must Be Logged In!!!")
         return redirect('home')
