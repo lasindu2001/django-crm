@@ -24,7 +24,7 @@
         {% if records %}
             {% for record in records %}
             <tr>
-                <td>{{ record.id }}</td>
+                <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td>
                 <td>{{ record.first_name }} {{ record.last_name }}</td>
                 <td>{{ record.email }}</td>
                 <td>{{ record.phone }}</td>
@@ -41,20 +41,22 @@
 
     {% else %}
 
-    <h1>Login</h1>
-    <br>
-    <form action="{% url 'home' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input type="text" class="form-control" name="username" placeholder="Username" required>
-        </div>
+    <div class="col-md-6 offset-md-3">
+        <h1>Login</h1>
         <br>
-        <div class="mb-3">
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-secondary">Login</button>
-    </form>
+        <form action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <br>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-secondary">Login</button>
+        </form>
+    </div>
 
     {% endif %}
 
